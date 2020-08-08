@@ -69,9 +69,11 @@ class BlogCLI
         puts "\n"
         current_user.posts.each {|post| puts "Post ##{post.id} - Title: #{post.title}"}
         
-        puts "\nEnter the Post ID you would like to view."
+        puts "\nEnter the Post ID you would like to view. Enter 'back' to go back to the menu."
         if (1..Post.all.size).include?(user_input.to_i)
             self.show_user_post
+        elsif last_input == 'back'
+            self.menu
         else
             puts "\nInvalid input. Please try again.".colorize(:light_red)
             self.list_user_posts
@@ -97,9 +99,11 @@ class BlogCLI
         puts "\n"
         Post.all.each {|post| puts "Post ##{post.id} - #{post.title} - #{post.author.name}"}
 
-        puts "\nEnter the Post ID you would like to view."
+        puts "\nEnter the Post ID you would like to view. Enter 'back' to go back to the menu."
         if (1..Post.all.size).include?(user_input.to_i)
             self.show_all_posts
+        elsif last_input == 'back'
+            self.menu
         else 
             puts "\nInvalid input. Please try again.".colorize(:light_red)
             self.list_all_posts
