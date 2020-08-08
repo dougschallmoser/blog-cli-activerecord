@@ -10,3 +10,4 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
     gem 'activerecord'
     gem 'sinatra-activerecord', :require => 'active_record'
     gem 'require_all'
+    gem 'colorize'

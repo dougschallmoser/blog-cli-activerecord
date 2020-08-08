@@ -69,29 +69,55 @@ class BlogCLI
         puts "\n"
         current_user.posts.each {|post| puts "Post ##{post.id} - Title: #{post.title}"}
         
-        puts "\nEnter the Post ID you would like to see."
+        puts "\nEnter the Post ID you would like to view."
         if (1..Post.all.size).include?(user_input.to_i)
-            self.show_post
+            self.show_user_post
         else
-            self.menu
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.list_user_posts
         end
     end 
 
-    def show_post
-        post = current_user.posts.find_by(:id => last_input.to_i)
-        puts "\n******************************************]\n"
-        puts "\nPost ##{post.id}"
-        puts "Title: #{post.title}"
-        puts "By: #{post.author.name}"
-        puts "\n#{post.content}"
-        self.menu
+    def show_user_post
+        if post = current_user.posts.find_by(:id => last_input.to_i)
+            puts "\n******************************************]\n"
+            puts "\nPost ##{post.id}"
+            puts "Title: #{post.title}"
+            puts "By: #{post.author.name}"
+            puts "\n#{post.content}"
+            self.menu
+        else 
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.list_user_posts
+        end 
     end 
 
     def list_all_posts
         puts "\nHere are all of the posts in the database:"
         puts "\n"
         Post.all.each {|post| puts "Post ##{post.id} - #{post.title} - #{post.author.name}"}
-        self.menu
+
+        puts "\nEnter the Post ID you would like to view."
+        if (1..Post.all.size).include?(user_input.to_i)
+            self.show_all_posts
+        else 
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.list_all_posts
+        end
     end
+
+    def show_all_posts
+        if post = Post.all.find_by(:id => last_input.to_i)
+            puts "\n******************************************]\n"
+            puts "\nPost ##{post.id}"
+            puts "Title: #{post.title}"
+            puts "By: #{post.author.name}"
+            puts "\n#{post.content}"
+            self.menu
+        else 
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.list_all_posts
+        end 
+    end 
 
 end 
