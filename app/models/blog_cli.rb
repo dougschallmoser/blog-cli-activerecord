@@ -65,7 +65,7 @@ class BlogCLI
     end 
 
     def list_user_posts
-        puts "\nHere are all of your posts #{current_user.name.capitalize}:"
+        puts "\nHere are all of your posts #{current_user.name.capitalize}:".colorize(:blue)
         puts "\n"
         current_user.posts.each {|post| puts "Post ##{post.id} - Title: #{post.title}"}
         
@@ -95,7 +95,7 @@ class BlogCLI
     end 
 
     def list_all_posts
-        puts "\nHere are all of the posts in the database:"
+        puts "\nHere are all of the posts in the database:".colorize(:blue)
         puts "\n"
         Post.all.each {|post| puts "Post ##{post.id} - #{post.title} - #{post.author.name}"}
 
