@@ -56,7 +56,7 @@ class BlogCLI
         post = @current_user.posts.build(post_info)
         post.save
 
-        puts "\nSaved Post ##{post.id}."
+        puts "\nPost ##{post.id} created at #{post.created_at}."
         self.menu
     end 
 
@@ -67,7 +67,7 @@ class BlogCLI
     def list_user_posts
         puts "\nHere are all of your posts #{current_user.name.capitalize}:".colorize(:blue)
         puts "\n"
-        current_user.posts.each {|post| puts "Post ##{post.id} - Title: #{post.title}"}
+        current_user.posts.each {|post| puts "Post ##{post.id} - #{post.title}"}
         
         puts "\nEnter the Post ID you would like to view. Enter 'back' to go back to the menu."
         if (1..Post.all.size).include?(user_input.to_i)
@@ -86,6 +86,7 @@ class BlogCLI
             puts "\nPost ##{post.id}"
             puts "Title: #{post.title}"
             puts "By: #{post.author.name}"
+            puts "Date Created: #{post.created_at}"
             puts "\n#{post.content}"
             self.menu
         else 
@@ -116,6 +117,7 @@ class BlogCLI
             puts "\nPost ##{post.id}"
             puts "Title: #{post.title}"
             puts "By: #{post.author.name}"
+            puts "Date Created: #{post.created_at}"
             puts "\n#{post.content}"
             self.menu
         else 
