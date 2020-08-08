@@ -11,7 +11,7 @@ class BlogCLI
 
     def login
         puts "\nEnter your name to login:"
-        @current_user = Author.find_or_create_by(:name => user_input.capitalize)
+        @current_user = Author.find_or_create_by(:name => user_input)
         puts "\nYou are now logged in as #{current_user.name.capitalize}."
     end
 
@@ -68,6 +68,22 @@ class BlogCLI
         puts "\nHere are all of your posts #{current_user.name.capitalize}:"
         puts "\n"
         current_user.posts.each {|post| puts "Post ##{post.id} - Title: #{post.title}"}
+        
+        puts "\nEnter the Post ID you would like to see."
+        if (1..Post.all.size).include?(user_input.to_i)
+            self.show_post
+        else
+            self.menu
+        end
+    end 
+
+    def show_post
+        post = current_user.posts.find_by(:id => last_input.to_i)
+        puts "\n******************************************]\n"
+        puts "\nPost ##{post.id}"
+        puts "Title: #{post.title}"
+        puts "By: #{post.author.name}"
+        puts "\n#{post.content}"
         self.menu
     end 
 
