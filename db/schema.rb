@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 5) do
 
   create_table "authors", force: :cascade do |t|
     t.text "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 4) do
     t.integer "author_id"
     t.integer "category_id"
     t.string "content"
+    t.datetime "created_at"
   end
 
 end
