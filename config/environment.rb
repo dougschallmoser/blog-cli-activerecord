@@ -1,5 +1,5 @@
-Bundler.require
 require 'bundler/setup'
+Bundler.require
 require 'sinatra/activerecord'
 
 require_all 'app'
