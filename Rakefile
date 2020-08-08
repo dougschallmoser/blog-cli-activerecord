@@ -19,4 +19,10 @@ namespace :db do
         Pry.start
     end 
 
+    desc 'erases all records'
+    task :reset_records do 
+        Post.destroy_all
+        Author.destroy_all
+    end 
+
 end

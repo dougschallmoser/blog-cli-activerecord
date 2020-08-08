@@ -11,7 +11,7 @@ class BlogCLI
 
     def login
         puts "\nEnter your name to login:"
-        @current_user = Author.find_or_create_by(:name => user_input)
+        @current_user = Author.find_or_create_by(:name => user_input.capitalize)
         puts "\nYou are now logged in as #{current_user.name.capitalize}."
     end
 
