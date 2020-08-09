@@ -20,7 +20,8 @@ class BlogCLI
         puts "\n1. Create a post"
         puts "2. List YOUR posts"
         puts "3. List ALL posts"
-        puts "4. Exit"
+        puts "4. Find posts by category"
+        puts "5. Exit"
         menu_loop
     end
 
@@ -37,6 +38,9 @@ class BlogCLI
                 self.list_all_posts
                 break
             when 4
+                self.list_categories
+                break
+            when 5
                 exit 
             else
                 puts "\nInvalid input. Try again."
@@ -50,11 +54,16 @@ class BlogCLI
         post_info = {}
         puts "\nPlease enter the title of your new post:"
         post_info[:title] = user_input 
+        puts "\nPlease enter the category of your new post:"
+        category = user_input 
         puts "\nPlease enter the content of your new post:"
         post_info[:content] = user_input
 
         post = @current_user.posts.build(post_info)
         post.save
+
+        post.build_category(:name => category)
+        post.save 
 
         puts "\nPost ##{post.id} created at #{post.created_at}."
         self.menu
@@ -86,6 +95,7 @@ class BlogCLI
             puts "\nPost ##{post.id}"
             puts "Title: #{post.title}"
             puts "By: #{post.author.name}"
+            puts "Category: #{post.category.name}"
             puts "Date Created: #{post.created_at}"
             puts "\n#{post.content}"
             self.menu
@@ -102,7 +112,7 @@ class BlogCLI
 
         puts "\nEnter the Post ID you would like to view. Enter 'back' to go back to the menu."
         if (1..Post.all.size).include?(user_input.to_i)
-            self.show_all_posts
+            self.show_all_post
         elsif last_input == 'back'
             self.menu
         else 
@@ -111,12 +121,13 @@ class BlogCLI
         end
     end
 
-    def show_all_posts
+    def show_all_post
         if post = Post.all.find_by(:id => last_input.to_i)
             puts "\n******************************************]\n"
             puts "\nPost ##{post.id}"
             puts "Title: #{post.title}"
             puts "By: #{post.author.name}"
+            puts "Category: #{post.category.name}"
             puts "Date Created: #{post.created_at}"
             puts "\n#{post.content}"
             self.menu
@@ -125,5 +136,47 @@ class BlogCLI
             self.list_all_posts
         end 
     end 
+
+    def list_categories
+        puts "\nWhat category would you like to search for posts?"
+        if category = Category.all.find_by(:name => user_input)
+            puts "\nHere are all of the #{last_input} posts:".colorize(:blue)
+            puts "\n"
+            category.posts.each {|post| puts "Post ##{post.id} - #{post.title} - #{post.author.name} - #{post.category.name}"}
+            self.prompt_category_post
+        else 
+            puts "\nThere are no posts with #{last_input} as the category. Please try again.".colorize(:light_red)
+            self.list_categories
+        end 
+    end
+
+    def prompt_category_post
+        puts "\nEnter the Post ID you would like to view. Enter 'back' to go back to the menu."
+        if (1..Post.all.size).include?(user_input.to_i)
+            self.show_category_post
+        elsif last_input == 'back'
+            self.menu
+        else
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.prompt_category_post
+        end
+    end
+
+    def show_category_post
+        if post = Post.all.find_by(:id => last_input.to_i)
+            puts "\n******************************************]\n"
+            puts "\nPost ##{post.id}"
+            puts "Title: #{post.title}"
+            puts "By: #{post.author.name}"
+            puts "Category: #{post.category.name}"
+            puts "Date Created: #{post.created_at}"
+            puts "\n#{post.content}"
+            self.menu
+        else 
+            puts "\nInvalid input. Please try again.".colorize(:light_red)
+            self.list_all_posts
+        end 
+    end 
+
 
 end 
