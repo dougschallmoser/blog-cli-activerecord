@@ -20,7 +20,7 @@ class BlogCLI
         puts "\n1. Create a post"
         puts "2. List YOUR posts"
         puts "3. List ALL posts"
-        puts "4. Find posts by category"
+        puts "4. List posts by category"
         puts "5. Exit"
         menu_loop
     end
