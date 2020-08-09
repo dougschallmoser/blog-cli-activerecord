@@ -11,8 +11,8 @@ class BlogCLI
 
     def login
         puts "\nEnter your name to login:"
-        @current_user = Author.find_or_create_by(:name => user_input.capitalize)
-        puts "\nYou are now logged in as #{current_user.name.capitalize}."
+        @current_user = Author.find_or_create_by(:name => user_input.downcase.capitalize)
+        puts "\nYou are now logged in as #{current_user.name.downcase.capitalize}."
     end
 
     def menu
@@ -55,7 +55,7 @@ class BlogCLI
         puts "\nPlease enter the title of your new post:"
         post_info[:title] = user_input 
         puts "\nPlease enter the category of your new post:"
-        category = user_input 
+        category = user_input.downcase.capitalize
         puts "\nPlease enter the content of your new post:"
         post_info[:content] = user_input
 
@@ -65,7 +65,7 @@ class BlogCLI
         post.build_category(:name => category)
         post.save 
 
-        puts "\nPost ##{post.id} created at #{post.created_at}."
+        puts "\nPost ##{post.id}".colorize(:light_red) + " created at #{post.created_at}.".colorize(:blue)
         self.menu
     end 
 
@@ -139,8 +139,8 @@ class BlogCLI
 
     def list_categories
         puts "\nWhat category would you like to search for posts?"
-        if category = Category.all.find_by(:name => user_input)
-            puts "\nHere are all of the #{last_input} posts:".colorize(:blue)
+        if category = Category.all.find_by(:name => user_input.downcase.capitalize)
+            puts "\nHere are all of the ".colorize(:blue) + "#{last_input}".colorize(:light_red) + " posts:".colorize(:blue)
             puts "\n"
             category.posts.each {|post| puts "Post ##{post.id} - #{post.title} - #{post.author.name} - #{post.category.name}"}
             self.prompt_category_post
