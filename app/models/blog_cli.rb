@@ -12,7 +12,7 @@ class BlogCLI
     def login
         puts "\nEnter your name to login:"
         @current_user = Author.find_or_create_by(:name => user_input.downcase.capitalize)
-        puts "\nYou are now logged in as #{current_user.name.downcase.capitalize}."
+        puts "\nYou are now logged in as #{current_user.name.downcase.capitalize}.".colorize(:blue)
     end
 
     def menu
@@ -138,7 +138,11 @@ class BlogCLI
     end 
 
     def list_categories
-        puts "\nWhat category would you like to search for posts?"
+        puts "\nHere are the available categories of posts in the database:".colorize(:blue)
+        puts "\n"
+        Category.all.each {|category| puts category.name}.uniq
+
+        puts "\nWhich category would you like to show posts for?"
         if category = Category.all.find_by(:name => user_input.downcase.capitalize)
             puts "\nHere are all of the ".colorize(:blue) + "#{last_input}".colorize(:light_red) + " posts:".colorize(:blue)
             puts "\n"
